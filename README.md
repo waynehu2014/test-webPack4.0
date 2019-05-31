@@ -9,3 +9,11 @@
 
 ##  手动配置webpack
 -   默认配置文件的名字  webpack.config.js
+-   手动指定配置文件：npx webpack --config <fileName>
+-   package.json配置:
+-      "scripts": {
+-        "build": "webpack --config webpack.config.my.js"
+-      },
+-       npm run build
+-   or
+-       npm run build -- --config webpack.config.my.js

@@ -1,12 +1,12 @@
 /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
+/******/ 	// The module cache 先定义了一个缓存
 /******/ 	var installedModules = {};
 /******/
-/******/ 	// The require function
+/******/ 	// The require function 配置了 实现了require
 /******/ 	function __webpack_require__(moduleId) {
 /******/
 /******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
+/******/ 		if(installedModules[moduleId]) {  //不在缓存中，先安装模块
 /******/ 			return installedModules[moduleId].exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js"); //入口模块
 /******/ })
 /************************************************************************/
 /******/ ({
