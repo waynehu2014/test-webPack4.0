@@ -2,6 +2,9 @@
 
 let path = require('path');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
+let MiniCssExtractPlugin = require('mini-css-extract-plugin');
+let OptimizeCss = require('optimize-css-assets-webpack-plugin');
+let UglifyjsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     // devServer:{
@@ -11,7 +14,18 @@ module.exports = {
     //     contentBase: './dist',  //运行指定目录
     //     compress: true  //压缩
     // },
-    mode: 'development',//模式， 两种 production（默认，会压缩代码）   development
+    optimization: {
+        // 优化项
+        minimizer: [
+            new OptimizeCss({}),    //单独使用他会影响js压缩，造成js不压缩
+            new UglifyjsPlugin({
+                cache: true,    //缓存？
+                parallel: true,  //并发打包？
+                sourceMap: true,    //映射？
+            })
+        ]
+    },
+    mode: 'production',//模式， 两种 production （默认，会压缩代码）   development
     entry: './src/index.js',   //入口
     output: {
         filename: 'bundle.[hash:8].js',    //打包后的文件名，bundle.js，加hash,:8只显示8位
@@ -26,6 +40,9 @@ module.exports = {
                 collapseWhitespace: true,   //变成一行
             },
             hash: true, //防缓存
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'main.css'
         })
     ],
     module: {   //模块
@@ -36,23 +53,31 @@ module.exports = {
             // 多个loader需要[]
             // loder的顺序 默认是从右向左执行,写成对象的模式可以传参数
             {
-                test: /\.css$/, use: [{
-                    loader: 'style-loader',
-                    options: {
-                        insertAt: 'top'
-                    }
-                }, 'css-loader']
+                test: /\.css$/, use: [
+                    // {
+                    //     loader: 'style-loader',
+                    //     options: {
+                    //         insertAt: 'top'
+                    //     }
+                    // }, 
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader'
+                ]
             },
             {
                 // 可以处理less文件    sass stylus node-sass   sass-loader
                 // stylus   stylus-loader
-                test: /\.less$/, use: [{
-                    loader: 'style-loader',
-                    options: {
-                        insertAt: 'top'
-                    }
-                },
-                    'css-loader',   
+                test: /\.less$/, use: [
+                    // {
+                    //     loader: 'style-loader',
+                    //     options: {
+                    //         insertAt: 'top'
+                    //     }
+                    // },
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
                     'less-loader'   //把 less  ->  css
                 ]
             }
