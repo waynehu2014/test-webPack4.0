@@ -17,3 +17,11 @@
 -       npm run build
 -   or
 -       npm run build -- --config webpack.config.my.js
+
+## html本地服务器
+-   yarn add webpack-dev-server -D
+-   or
+-   npx webpack-dev-server  //打包在内存中
+
+- package.json配置，webpack.config.js配置，npm dev run
+
